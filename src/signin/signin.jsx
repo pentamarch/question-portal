@@ -32,10 +32,12 @@ class SignIn extends Component {
       //   //   "content-type": "application/json",
       //   // },
       // });
+      console.log(this.state.account["username"]);
+      console.log(this.state.account["password"]);
       axios
         .post("http://pisb.gauravghati.world/", {
-          username: this.props.username,
-          password: this.props.password,
+          username: this.state.account["username"],
+          password: this.state.account["password"],
         })
         .then((response) => {
           console.log(response);
@@ -54,8 +56,8 @@ class SignIn extends Component {
     } else {
       axios
         .post(`${this.props.url}` + "/login", {
-          username: this.state.username,
-          password: this.state.password,
+          username: this.state.account["username"],
+          password: this.state.account["password"],
         })
 
         .then((response) => {
@@ -120,6 +122,7 @@ class SignIn extends Component {
                 onChange={this.handleChange}
                 value={this.state.username}
                 id="username"
+                name="username"
                 type="text"
                 className="inp"
                 placeholder="Username"
@@ -130,6 +133,7 @@ class SignIn extends Component {
                 onChange={this.handleChange}
                 value={this.state.password}
                 id="password"
+                name="password"
                 type="password"
                 className="inp"
                 placeholder="Password"
