@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class Leaderboard extends Component {
   state = {
@@ -8,6 +9,7 @@ class Leaderboard extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token");
+
     axios({
       method: "get",
       url: `http://${this.props.url}/leaderboard`,
@@ -48,5 +50,7 @@ class Leaderboard extends Component {
     );
   }
 }
-
-export default Leaderboard;
+const mapStateToProps = (state) => {
+  return { url: state.url.url };
+};
+export default connect(mapStateToProps)(Leaderboard);
