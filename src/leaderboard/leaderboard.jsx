@@ -10,7 +10,7 @@ class Leaderboard extends Component {
     const token = localStorage.getItem("token");
     axios({
       method: "get",
-      url: "/leaderboard",
+      url: `http://${this.props.url}/leaderboard`,
       headers: { authorization: `Bearer ${token}` },
     }).then((response) => {
       this.setState({ users: response.data });
@@ -38,7 +38,7 @@ class Leaderboard extends Component {
                   {user.username}
                 </td>
                 <td style={{ width: "30%", textAlign: "center" }}>
-                  {user.numberQue}
+                  {user.currentQue}
                 </td>
               </tr>
             ))}

@@ -22,7 +22,7 @@ class SignIn extends Component {
     e.preventDefault();
     if (this.state.signin === false) {
       axios
-        .post("/", {
+        .post(`http://${this.props.url}/`, {
           username: this.state.account["username"],
           password: this.state.account["password"],
         })
@@ -39,7 +39,7 @@ class SignIn extends Component {
         });
     } else {
       axios
-        .post("/login", {
+        .post(`http://${this.props.url}/login`, {
           username: this.state.account["username"],
           password: this.state.account["password"],
         })

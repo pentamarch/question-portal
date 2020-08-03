@@ -16,7 +16,7 @@ class Add extends Component {
     if (this.props.edit != true) {
       axios({
         method: "post",
-        url: "/" + `${user.username}` + "/submit",
+        url: `http://${this.props.url}/` + `${user.username}` + "/submit",
         headers: { authorization: `Bearer ${token}` },
         data: {
           heading: this.props.title,
