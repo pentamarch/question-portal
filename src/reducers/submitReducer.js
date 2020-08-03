@@ -7,6 +7,8 @@ const initstate = {
   option4: "",
   rightans: "",
   lang: "",
+  edit: "",
+  id: "",
 };
 const submitReducer = (state = initstate, action) => {
   if (action.type === "ADD_TITLE")
@@ -48,6 +50,21 @@ const submitReducer = (state = initstate, action) => {
     return {
       ...state,
       lang: action.lang,
+    };
+  if (action.type === "EDIT") {
+    return {
+      ...state,
+      edit: action.value,
+    };
+  }
+  if (action.type === "ID")
+    return {
+      ...state,
+      id: action.id,
+    };
+  if (action.type === "RESET")
+    return {
+      initstate,
     };
   return state;
 };

@@ -6,58 +6,84 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 class Add extends Component {
-  state = {
-    title: "",
-    question: "",
-    option1: "",
-    option2: "",
-    option3: "",
-    option4: "",
-    rightans: "",
-    lang: "",
+  componentWillUnmount = () => {
+    this.props.reset();
   };
-
   handleSubmit = (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
-    axios({
-      method: "post",
-      url:
-        "http://" + `${this.props.url}` + "/" + `${user.username}` + "/submit",
-      headers: { accessToken: token },
-    }).then((response) => {
-      this.props.history.push("/" + `${user.username}` + "/questions");
-    });
+    if (this.props.edit != true) {
+      axios({
+        method: "post",
+        url: "/" + `${user.username}` + "/submit",
+        headers: { authorization: `Bearer ${token}` },
+        data: {
+          heading: this.props.title,
+          statement: this.props.question,
+          opt1: this.props.option1,
+          opt2: this.props.option2,
+          opt3: this.props.option3,
+          opt4: this.props.option4,
+          lang: this.props.lang,
+          rightopt: this.props.rightans,
+        },
+      }).then((response) => {
+        this.props.history.push("/questions");
+      });
+    } else {
+      axios({
+        method: "put",
+        url:
+          "http://" +
+          `${this.props.url}` +
+          "/" +
+          `${user.username}` +
+          "/" +
+          `${this.props.id}`,
+        headers: { authorization: `Bearer ${token}` },
+        data: {
+          heading: this.props.title,
+          statement: this.props.question,
+          opt1: this.props.option1,
+          opt2: this.props.option2,
+          opt3: this.props.option3,
+          opt4: this.props.option4,
+          lang: this.props.lang,
+          rightopt: this.props.rightans,
+        },
+      }).then((response) => {
+        this.props.history.push("/questions");
+      });
+    }
   };
   onChangeValue = (event) => {
-    this.props.addLang({ lang: event.target.value });
+    this.props.addLang(event.target.value);
   };
 
   handleQuestion = (e) => {
-    this.props.addQues({ question: e.target.value });
+    this.props.addQues(e.target.value);
   };
 
   handleTitle = (e) => {
-    this.props.addTitle({ title: e.target.value });
+    this.props.addTitle(e.target.value);
   };
 
   handleRightOption = (e) => {
-    this.props.addRightans({ rightans: e.target.value });
+    this.props.addRightans(e.target.value);
   };
 
   handleOption1 = (e) => {
-    this.props.addop1({ op1: e.target.value });
+    this.props.addop1(e.target.value);
   };
   handleOption2 = (e) => {
-    this.props.addop2({ op2: e.target.value });
+    this.props.addop2(e.target.value);
   };
   handleOption3 = (e) => {
-    this.props.addop3({ op3: e.target.value });
+    this.props.addop3(e.target.value);
   };
   handleOption4 = (e) => {
-    this.props.addop4({ op4: e.target.value });
+    this.props.addop4(e.target.value);
   };
   render() {
     return (
@@ -147,30 +173,34 @@ class Add extends Component {
               <input
                 style={{ marginTop: "1vw" }}
                 type="radio"
-                value="1"
+                value={1}
                 name="rightans"
+                checked={this.props.rightans === 1 ? "checked" : null}
                 required
               />{" "}
               option 1
               <input
                 style={{ marginLeft: "2vw" }}
                 type="radio"
-                value="2"
+                value={2}
+                checked={this.props.rightans === 2 ? "checked" : null}
                 name="rightans"
               />{" "}
               option 2
               <input
                 style={{ marginLeft: "2vw" }}
                 type="radio"
-                value="3"
+                value={3}
                 name="rightans"
+                checked={this.props.rightans === 3 ? "checked" : null}
               />{" "}
               option 3
               <input
                 style={{ marginLeft: "2vw" }}
                 type="radio"
-                value="4"
+                value={4}
                 name="rightans"
+                checked={this.props.rightans === 4 ? "checked" : null}
               />{" "}
               option 4
             </div>
@@ -186,15 +216,17 @@ class Add extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    url: state.url,
-    title: state.title,
-    question: state.question,
-    option1: state.option1,
-    option2: state.option2,
-    option3: state.option3,
-    option4: state.option4,
-    rightans: state.rightans,
-    lang: state.lang,
+    url: state.url.url,
+    title: state.submit.title,
+    question: state.submit.question,
+    option1: state.submit.option1,
+    option2: state.submit.option2,
+    option3: state.submit.option3,
+    option4: state.submit.option4,
+    rightans: state.submit.rightans,
+    lang: state.submit.lang,
+    edit: state.submit.edit,
+    id: state.submit.id,
   };
 };
 
@@ -223,6 +255,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addLang: (lang) => {
       dispatch({ type: "ADD_LANG", lang: lang });
+    },
+    reset: () => {
+      dispatch({ type: "RESET" });
     },
   };
 };

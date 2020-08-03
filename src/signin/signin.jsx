@@ -21,53 +21,35 @@ class SignIn extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (this.state.signin === false) {
-      // axios({
-      //   method: "post",
-      //   url: "http://pisb.gauravghati.world/",
-      //   params: {
-      //     username: this.state.username,
-      //     password: this.state.password,
-      //   },
-      //   // headers: {
-      //   //   "content-type": "application/json",
-      //   // },
-      // });
-      console.log(this.state.account["username"]);
-      console.log(this.state.account["password"]);
       axios
-        .post("http://pisb.gauravghati.world/", {
+        .post("/", {
           username: this.state.account["username"],
           password: this.state.account["password"],
         })
         .then((response) => {
-          console.log(response);
-          if (response.message) this.setState({ error: response.message });
+          if (response.data.message)
+            this.setState({ error: response.data.message });
           else {
-            localStorage.setItem("token", this.response.accessToken);
-            console.log(response);
-            // this.props.history.replace(
-            //   "/" + `${this.state.username}` + "/questions"
-            // );
+            localStorage.setItem("token", response.data.accessToken);
+            this.props.history.replace("/questions");
           }
         })
         .catch((error) => {
-          // console.log(error);
+          console.log(error.message);
         });
     } else {
       axios
-        .post(`${this.props.url}` + "/login", {
+        .post("/login", {
           username: this.state.account["username"],
           password: this.state.account["password"],
         })
 
         .then((response) => {
-          //console.log(response);
-          if (response.message) this.setState({ error: response.message });
+          if (response.data.message)
+            this.setState({ error: response.data.message });
           else {
-            localStorage.setItem("token", this.response.accessToken);
-            this.props.history.replace(
-              "/" + `${this.state.username}` + "/questions"
-            );
+            localStorage.setItem("token", response.data.accessToken);
+            this.props.history.replace("/questions");
           }
         })
         .catch((error) => {
@@ -142,7 +124,8 @@ class SignIn extends Component {
 
               {this.state.error && (
                 <div className="error">
-                  {this.state.error} <span id="warn">!</span>
+                  {this.state.error}
+                  {/* <span id="warn">!</span> */}
                 </div>
               )}
               <input type="submit" className="sbmt" value="Submit" />
@@ -156,7 +139,8 @@ class SignIn extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    url: state.url,
+    url: state.url.url,
   };
 };
+
 export default connect(mapStateToProps)(SignIn);

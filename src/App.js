@@ -14,8 +14,8 @@ function App() {
         <Route exact path="/" component={SignIn} />
         <Navbar />
       </Switch>
-      <Route path="/:username/questions" component={Questions}></Route>
-      <Route path="/:username/submit" component={Add}></Route>
+      <Route path="/questions" component={Questions}></Route>
+      <Route path="/submit" component={Add}></Route>
       <Route path="/leaderboard" component={Leaderboard}></Route>
     </BrowserRouter>
   );

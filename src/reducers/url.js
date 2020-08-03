@@ -1,6 +1,6 @@
 const urlReducer = (
   state = {
-    url: "http://pisb.gauravghati.world",
+    url: "pisb.gauravghati.world",
   },
   action
 ) => {
