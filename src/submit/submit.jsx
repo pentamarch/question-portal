@@ -95,15 +95,31 @@ class Add extends Component {
                 Select language:
               </span>
               <span>
-                <input type="radio" value="C" name="lang" required />
+                <input
+                  checked={this.props.lang === "C" ? "checked" : null}
+                  type="radio"
+                  value="C"
+                  name="lang"
+                  required
+                />
                 <span style={{ margin: "1vw" }}>C</span>
               </span>
               <span style={{ margin: "2vw" }}>
-                <input type="radio" value="C++" name="lang" />
+                <input
+                  checked={this.props.lang === "C++" ? "checked" : null}
+                  type="radio"
+                  value="C++"
+                  name="lang"
+                />
                 <span style={{ margin: "1vw" }}>C++</span>
               </span>
               <span>
-                <input type="radio" value="Python" name="lang" />
+                <input
+                  checked={this.props.lang === "Python" ? "checked" : null}
+                  type="radio"
+                  value="Python"
+                  name="lang"
+                />
                 <span style={{ margin: "1vw" }}>Python</span>
               </span>
             </div>
