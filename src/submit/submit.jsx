@@ -6,13 +6,24 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 class Add extends Component {
+  state = {
+    readonly: false,
+  };
   componentWillUnmount = () => {
     this.props.reset();
   };
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+
+    if (user.role === "admin") this.setState({ readonly: true });
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
+
     if (this.props.edit != true) {
       axios({
         method: "post",
@@ -101,6 +112,7 @@ class Add extends Component {
                   value="C"
                   name="lang"
                   required
+                  readOnly={this.state.readonly}
                 />
                 <span style={{ margin: "1vw" }}>C</span>
               </span>
@@ -110,6 +122,7 @@ class Add extends Component {
                   type="radio"
                   value="C++"
                   name="lang"
+                  readOnly={this.state.readonly}
                 />
                 <span style={{ margin: "1vw" }}>C++</span>
               </span>
@@ -119,6 +132,7 @@ class Add extends Component {
                   type="radio"
                   value="Python"
                   name="lang"
+                  readOnly={this.state.readonly}
                 />
                 <span style={{ margin: "1vw" }}>Python</span>
               </span>
@@ -134,6 +148,7 @@ class Add extends Component {
                 rows="1"
                 cols="70"
                 required
+                readOnly={this.state.readonly}
               ></textarea>
             </div>
             <div className="ques">
@@ -147,6 +162,7 @@ class Add extends Component {
                 value={this.props.question}
                 onChange={this.handleQuestion}
                 required
+                readOnly={this.state.readonly}
               ></textarea>
             </div>
           </div>
@@ -159,6 +175,7 @@ class Add extends Component {
                 nameOption="op1"
                 onChange={this.handleOption1}
                 label="Option 1"
+                readonly={this.state.readonly}
               />
               <Option
                 id="op2"
@@ -166,6 +183,7 @@ class Add extends Component {
                 nameOption="op2"
                 onChange={this.handleOption2}
                 label="Option 2"
+                readonly={this.state.readonly}
               />
               <Option
                 id="op3"
@@ -173,6 +191,7 @@ class Add extends Component {
                 nameOption="op3"
                 onChange={this.handleOption3}
                 label="Option 3"
+                readonly={this.state.readonly}
               />
               <Option
                 id="op4"
@@ -180,6 +199,7 @@ class Add extends Component {
                 nameOption="op4"
                 onChange={this.handleOption4}
                 label="Option 4"
+                readonly={this.state.readonly}
               />
             </div>
 
@@ -193,6 +213,7 @@ class Add extends Component {
                 name="rightans"
                 checked={this.props.rightans === 1 ? "checked" : null}
                 required
+                readonly={this.state.readonly}
               />{" "}
               option 1
               <input
@@ -201,6 +222,7 @@ class Add extends Component {
                 value={2}
                 checked={this.props.rightans === 2 ? "checked" : null}
                 name="rightans"
+                readonly={this.state.readonly}
               />{" "}
               option 2
               <input
@@ -209,6 +231,7 @@ class Add extends Component {
                 value={3}
                 name="rightans"
                 checked={this.props.rightans === 3 ? "checked" : null}
+                readonly={this.state.readonly}
               />{" "}
               option 3
               <input
@@ -217,14 +240,17 @@ class Add extends Component {
                 value={4}
                 name="rightans"
                 checked={this.props.rightans === 4 ? "checked" : null}
+                readonly={this.state.readonly}
               />{" "}
               option 4
             </div>
           </div>
         </div>
-        <div className="row second">
-          <input type="submit" className="sbmit" value="Submit" />
-        </div>
+        {!this.state.readonly && (
+          <div className="row second">
+            <input type="submit" className="sbmit" value="Submit" />
+          </div>
+        )}
       </form>
     );
   }

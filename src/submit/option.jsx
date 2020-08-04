@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./submit.css";
 
-const Option = ({ id, valueOption, label, nameOption, onChange }) => {
+const Option = ({ id, valueOption, label, readonly, nameOption, onChange }) => {
   return (
     <React.Fragment>
       <textarea
@@ -15,6 +15,7 @@ const Option = ({ id, valueOption, label, nameOption, onChange }) => {
         value={valueOption}
         onChange={onChange}
         required
+        readOnly={readonly}
       ></textarea>
     </React.Fragment>
   );
