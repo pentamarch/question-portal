@@ -26,7 +26,7 @@ class AllQuestions extends Component {
     });
   };
 
-  handleView = (q) => {
+  handleView = (q, index) => {
     this.props.addTitle(q.heading);
     this.props.addRightans(q.rightopt);
     this.props.addop1(q.opt1);
@@ -35,6 +35,8 @@ class AllQuestions extends Component {
     this.props.addop4(q.opt4);
     this.props.addQues(q.statement);
     this.props.addLang(q.lang);
+    this.props.handleId(index);
+    this.props.verify(q.is_varified);
     this.props.history.push(`/submit`);
   };
 
@@ -60,16 +62,6 @@ class AllQuestions extends Component {
     });
   };
 
-  handlecheck = (e) => {
-    const token = localStorage.getItem("token");
-    const user = jwtDecode(token);
-    axios({
-      method: "put",
-      url: `http://${this.props.url}/admin/${e.currentTarget.value}`,
-      headers: { authorization: `Bearer ${token}` },
-      data: { is_varified: "yes" },
-    }).then((response) => {});
-  };
   render() {
     return (
       <div className="col" style={{ width: "84vw", marginLeft: "8vw" }}>
@@ -109,18 +101,19 @@ class AllQuestions extends Component {
                 <td style={{ textAlign: "center" }}>{q.heading}</td>
                 <td style={{ textAlign: "center" }}>{q.username}</td>
                 <td>
-                  <div className="edit" onClick={() => this.handleView(q)}>
+                  <div
+                    className="edit"
+                    onClick={() => this.handleView(q, index)}
+                  >
                     View
                   </div>
                 </td>
                 <td>
-                  <input
-                    type="checkbox"
-                    onChange={this.handlecheck}
-                    name={q.heading}
-                    value={index}
-                    checked={q.is_varified === "yes" ? "checked" : null}
-                  />
+                  {q.is_varified === "yes" ? (
+                    <span className="text-success">checked</span>
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
             ))}
@@ -168,6 +161,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleId: (id) => {
       dispatch({ type: "ID", id: id });
+    },
+    verify: (v) => {
+      dispatch({ type: "VERIFY", value: v });
     },
   };
 };

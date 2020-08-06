@@ -18,7 +18,7 @@ function App() {
       <Route path="/questions" component={Questions}></Route>
       <Route path="/submit" component={Add}></Route>
       <Route path="/leaderboard" component={Leaderboard}></Route>
-      <Route path="/allquestions" component={AllQuestions}></Route>
+      <Route path="/admin/allquestions" component={AllQuestions}></Route>
     </BrowserRouter>
   );
 }

@@ -9,6 +9,7 @@ const initstate = {
   lang: "",
   edit: "",
   id: "",
+  is_verified: "",
 };
 const submitReducer = (state = initstate, action) => {
   if (action.type === "ADD_TITLE")
@@ -65,6 +66,11 @@ const submitReducer = (state = initstate, action) => {
   if (action.type === "RESET")
     return {
       initstate,
+    };
+  if (action.type === "VERIFY")
+    return {
+      ...state,
+      is_verified: action.value,
     };
   return state;
 };

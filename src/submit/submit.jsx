@@ -8,14 +8,34 @@ import jwtDecode from "jwt-decode";
 class Add extends Component {
   state = {
     readonly: false,
+    checked: "",
   };
+
   componentWillUnmount = () => {
     this.props.reset();
+  };
+
+  handlecheck = (e) => {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    let is_varified = "";
+    if (e.currentTarget.checked) is_varified = "yes";
+    else is_varified = "no";
+
+    this.setState({ checked: is_varified });
+    axios({
+      method: "put",
+      url: `http://${this.props.url}/admin/${e.currentTarget.value}`,
+      headers: { authorization: `Bearer ${token}` },
+      data: { is_varified: is_varified },
+    }).then((response) => {});
   };
 
   componentDidMount() {
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
+    if (this.props.checked === "yes") this.setState({ checked: "yes" });
+    else this.setState({ checked: "no" });
 
     if (user.role === "admin") this.setState({ readonly: true });
   }
@@ -246,9 +266,21 @@ class Add extends Component {
             </div>
           </div>
         </div>
-        {!this.state.readonly && (
+        {this.state.readonly === false ? (
           <div className="row second">
             <input type="submit" className="sbmit" value="Submit" />
+          </div>
+        ) : (
+          <div style={{ marginLeft: "45vw", fontSize: "4vh" }}>
+            <label for="check">Select</label>
+            <input
+              id="check"
+              type="checkbox"
+              style={{ width: "4vw", height: "4vh" }}
+              value={this.props.id}
+              onChange={this.handlecheck}
+              checked={this.state.checked === "yes" ? "checked" : null}
+            />
           </div>
         )}
       </form>
@@ -269,6 +301,7 @@ const mapStateToProps = (state) => {
     lang: state.submit.lang,
     edit: state.submit.edit,
     id: state.submit.id,
+    checked: state.submit.is_verified,
   };
 };
 
@@ -300,6 +333,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     reset: () => {
       dispatch({ type: "RESET" });
+    },
+    verify: (v) => {
+      dispatch({ type: "VERIFY", value: v });
     },
   };
 };
