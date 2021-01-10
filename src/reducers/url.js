@@ -1,6 +1,6 @@
 const urlReducer = (
   state = {
-    url: "",
+    url: "queback.herokuapp.com",
   },
   action
 ) => {

@@ -15,6 +15,15 @@ class Add extends Component {
     this.props.reset();
   };
 
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    if (this.props.checked === "yes") this.setState({ checked: "yes" });
+    else this.setState({ checked: "no" });
+
+    if (user.role === "admin") this.setState({ readonly: true });
+  }
+
   handlecheck = (e) => {
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
@@ -31,14 +40,7 @@ class Add extends Component {
     }).then((response) => {});
   };
 
-  componentDidMount() {
-    const token = localStorage.getItem("token");
-    const user = jwtDecode(token);
-    if (this.props.checked === "yes") this.setState({ checked: "yes" });
-    else this.setState({ checked: "no" });
-
-    if (user.role === "admin") this.setState({ readonly: true });
-  }
+ 
   handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
