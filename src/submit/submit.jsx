@@ -34,13 +34,12 @@ class Add extends Component {
     this.setState({ checked: is_varified });
     axios({
       method: "put",
-      url: `http://${this.props.url}/admin/${e.currentTarget.value}`,
+      url: `https://${this.props.url}/admin/${e.currentTarget.value}`,
       headers: { authorization: `Bearer ${token}` },
       data: { is_varified: is_varified },
     }).then((response) => {});
   };
 
- 
   handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -49,7 +48,7 @@ class Add extends Component {
     if (this.props.edit != true) {
       axios({
         method: "post",
-        url: `http://${this.props.url}/` + `${user.username}` + "/submit",
+        url: `https://${this.props.url}/` + `${user.username}` + "/submit",
         headers: { authorization: `Bearer ${token}` },
         data: {
           heading: this.props.title,
@@ -68,7 +67,7 @@ class Add extends Component {
       axios({
         method: "put",
         url:
-          "http://" +
+          "https://" +
           `${this.props.url}` +
           "/" +
           `${user.username}` +

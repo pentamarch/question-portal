@@ -12,7 +12,7 @@ class Leaderboard extends Component {
 
     axios({
       method: "get",
-      url: `http://${this.props.url}/leaderboard`,
+      url: `https://${this.props.url}/leaderboard`,
       headers: { authorization: `Bearer ${token}` },
     }).then((response) => {
       this.setState({ users: response.data });

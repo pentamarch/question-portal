@@ -16,7 +16,7 @@ class Questions extends Component {
 
     axios({
       method: "get",
-      url: `http://${this.props.url}/${user.username}/questions`,
+      url: `https://${this.props.url}/${user.username}/questions`,
       headers: { authorization: `Bearer ${token}` },
     }).then((response) => {
       this.setState({
@@ -33,7 +33,7 @@ class Questions extends Component {
     axios({
       method: "get",
       url:
-        "http://" +
+        "https://" +
         `${this.props.url}` +
         "/" +
         `${user.username}` +
@@ -61,7 +61,7 @@ class Questions extends Component {
     axios({
       method: "delete",
       url:
-        "http://" +
+        "https://" +
         `${this.props.url}` +
         "/" +
         `${user.username}` +

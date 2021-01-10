@@ -17,7 +17,7 @@ class AllQuestions extends Component {
 
     axios({
       method: "get",
-      url: `http://${this.props.url}/admin`,
+      url: `https://${this.props.url}/admin`,
       headers: { authorization: `Bearer ${token}` },
     }).then((response) => {
       this.setState({
